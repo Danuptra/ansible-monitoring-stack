@@ -1,0 +1,8 @@
+- name: Setup Monitoring
+  hosts: dev
+  become: yes
+  become_method: sudo
+
+  roles:
+    - monitoring
+
