@@ -1,0 +1,59 @@
+---
+# tasks file for node-exporter
+- name: Create user
+  ansible.builtin.user:
+    name: "{{node_exporter_user}}"
+    shell: /sbin/nologin
+    system: true
+    create_home: false
+    state: present
+
+- name: Ensure destionation folder exists
+  ansible.builtin.file:
+    path: "{{item}}"
+    owner: "{{node_exporter_user}}"
+    group: "{{node_exporter_group}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{node_exporter_path}}"
+    
+
+- name: Download node-exporter resource
+  ansible.builtin.get_url:
+    url: https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz
+    dest: /tmp/node-exporter.tar.gz
+
+- name: Extract node-exporter archive
+  ansible.builtin.unarchive:
+    src: /tmp/node-exporter.tar.gz
+    dest: /tmp/
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    owner: "{{ node_exporter_user }}"
+    group: "{{ node_exporter_group }}"
+
+- name: Copy binary node-exporter
+  ansible.builtin.copy:
+    src: /tmp/node_exporter
+    dest: "{{node_exporter_path}}"
+    owner: "{{node_exporter_user}}"
+    group: "{{node_exporter_group}}"
+    mode: '0755'
+    remote_src: true
+
+- name: Deploy node-exporter systemd service
+  ansible.builtin.template:
+    src: node-exporter.service.j2
+    dest: /etc/systemd/system/node-exporter.service
+    mode: '0644'
+    owner: "{{node_exporter_user}}"
+    group: "{{node_exporter_group}}"
+  notify: Restart node-exporter
+
+- name: Enable and start 
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: node-exporter
+    state: started
+    enabled: true

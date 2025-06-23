@@ -1,3 +1,4 @@
+---
 - name: Setup Monitoring
   hosts: dev
   become: yes
@@ -6,4 +7,6 @@
   roles:
     - prometheus
     - grafana
+    - node-exporter
+  
 
