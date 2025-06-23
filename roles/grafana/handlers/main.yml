@@ -1,2 +1,15 @@
 ---
 # handlers file for grafana
+- name: Restart grafana
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: grafana-server
+    state: restarted
+
+- name: Reload grafana
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: grafana-server
+    state: reloaded

@@ -12,7 +12,6 @@ ExecStart={{ prometheus_bin }} \
   --storage.tsdb.path={{ prometheus_data_dir }} \
   --web.console.templates={{ prometheus_consoles }} \
   --web.console.libraries={{ prometheus_console_libs }}
-  --web.listen-address={{ prometheus_url }}
 
 [Install]
 WantedBy=multi-user.target

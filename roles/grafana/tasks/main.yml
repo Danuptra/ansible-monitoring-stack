@@ -1,2 +1,57 @@
 ---
-# tasks file for grafana
+- name: Create user
+  ansible.builtin.user:
+    name: grafana
+    shell: /sbin/nologin
+    system: true
+    create_home: false
+    state: present
+
+- name: Ensure destionation folder exists
+  ansible.builtin.file:
+    path: "{{item}}"
+    owner: "{{grafana_user}}"
+    group: "{{grafana_group}}"
+    mode: "0755"
+    state: directory
+  loop:
+    - "{{grafana_home_path}}"
+    
+
+- name: Download grafana resource
+  ansible.builtin.get_url:
+    url: https://dl.grafana.com/oss/release/grafana-12.0.2.linux-amd64.tar.gz
+    dest: /tmp/grafana.tar.gz
+
+- name: Extract Grafana archive
+  ansible.builtin.unarchive:
+    src: /tmp/grafana.tar.gz
+    dest: /usr/local/grafana
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    owner: "{{ grafana_user }}"
+    group: "{{ grafana_group }}"
+
+- name: Copy simple configution
+  ansible.builtin.copy:
+    src: /usr/local/grafana/conf/sample.ini
+    dest: /usr/local/grafana/conf/grafana.ini
+    owner: "{{grafana_user}}"
+    group: "{{grafana_group}}"
+    remote_src: true
+
+- name: Deploy grafana systemd service
+  ansible.builtin.template:
+    src: grafana-server.service.j2
+    dest: /etc/systemd/system/grafana-server.service
+    mode: '0644'
+    owner: "{{grafana_user}}"
+    group: "{{grafana_group}}"
+  notify: Restart grafana
+
+- name: Enable and start 
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: grafana-server
+    state: started
+    enabled: true

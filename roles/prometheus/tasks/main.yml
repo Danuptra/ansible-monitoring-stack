@@ -37,7 +37,7 @@
 - name: Move to /etc/
   ansible.builtin.shell: mv /tmp/prometheus-3.4.1.linux-amd64/* /etc/prometheus/
 
-- name: Coppy binaries
+- name: Coppy binary
   ansible.builtin.copy:
     src: /etc/prometheus/prometheus
     dest: /usr/local/bin/prometheus
@@ -52,6 +52,12 @@
     dest: /etc/systemd/system/prometheus.service
     mode: '0644'
   notify: Restart prometheus
+
+- name: Enable prometheus
+  ansible.builtin.systemd:
+    name: prometheus
+    enabled: true
+    state: started
 
 - name: Health check prometheus
   ansible.builtin.uri:

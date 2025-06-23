@@ -4,5 +4,6 @@
   become_method: sudo
 
   roles:
-    - monitoring
+    - prometheus
+    - grafana
 
