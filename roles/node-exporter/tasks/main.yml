@@ -8,17 +8,6 @@
     create_home: false
     state: present
 
-- name: Ensure destionation folder exists
-  ansible.builtin.file:
-    path: "{{item}}"
-    owner: "{{node_exporter_user}}"
-    group: "{{node_exporter_group}}"
-    mode: "0755"
-    state: directory
-  loop:
-    - "{{node_exporter_path}}"
-    
-
 - name: Download node-exporter resource
   ansible.builtin.get_url:
     url: https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz

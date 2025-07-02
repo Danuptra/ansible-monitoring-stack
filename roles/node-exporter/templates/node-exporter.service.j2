@@ -6,7 +6,7 @@ After=network.target
 User={{ node_exporter_user }}
 Group={{ node_exporter_group }}
 Type=simple
-ExecStart={{ node_exporter_bin }}
+ExecStart={{ node_exporter_path }}
 Restart=on-failure
 
 [Install]
