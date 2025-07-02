@@ -3,4 +3,4 @@
 node_exporter_user: node-exporter
 node_exporter_group: node-exporter
 node_exporter_path: /usr/local/node-exporter
-node_exporter_bin: /usr/local/node-exporter/node_exporter
+node_exporter_bin: /usr/local/bin/node_exporter

@@ -1,0 +1,16 @@
+---
+# handlers file for blackbox-exporter
+- name: Restart blackbox-exporter
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: blackbox-exporter
+    state: restarted
+    enabled: true
+
+- name: Reload blackbox-exporter
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: blackbox-exporter
+    state: reloaded

@@ -1,0 +1,13 @@
+[Unit]
+Description=Blackbox-Exporter
+After=network.target
+
+[Service]
+User={{ blackbox_user }}
+Group={{ blackbox_group }}
+Type=simple
+ExecStart={{ blackbox_bin }} --config.file="{{blackbox_config}}"
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

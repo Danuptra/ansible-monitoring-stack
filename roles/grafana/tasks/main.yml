@@ -1,7 +1,7 @@
 ---
 - name: Create user
   ansible.builtin.user:
-    name: grafana
+    name: "{{grafana_user}}"
     shell: /sbin/nologin
     system: true
     create_home: false
