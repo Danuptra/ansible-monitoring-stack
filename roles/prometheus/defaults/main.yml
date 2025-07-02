@@ -6,4 +6,5 @@ prometheus_config: /etc/prometheus/prometheus.yml
 prometheus_data_dir: /var/lib/prometheus
 prometheus_consoles: /etc/prometheus/consoles
 prometheus_console_libs: /etc/prometheus/console_libraries
+prometheus_path : /etc/prometheus/
 prometheus_url: 0.0.0.0:9090
