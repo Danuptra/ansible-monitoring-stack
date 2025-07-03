@@ -1,0 +1,7 @@
+---
+# defaults file for blackbox-exporter
+blackbox_user: blackbox
+blackbox_group: blackbox
+blackbox_path: /opt/blackbox_exporter/
+blackbox_bin: /usr/local/bin/blackbox_exporter
+blackbox_config_path: /etc/blackbox_exporter/

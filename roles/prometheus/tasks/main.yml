@@ -31,11 +31,11 @@
 - name: Unpack Prometheus
   ansible.builtin.unarchive:
     src: /tmp/prometheus.tar.gz
-    dest: /tmp/
+    dest: "{{prometheus_path}}"
     remote_src: true
-
-- name: Move to /etc/
-  ansible.builtin.shell: mv /tmp/prometheus-3.4.1.linux-amd64/* /etc/prometheus/
+    extra_opts: [--strip-components=1]
+    owner: prometheus
+    group: prometheus
 
 - name: Coppy binary
   ansible.builtin.copy:
@@ -45,6 +45,14 @@
     group: prometheus
     mode: '0755'
     remote_src: true
+
+- name: Copy configuration
+  ansible.builtin.copy:
+    src: prometheus.yml
+    dest: /etc/prometheus
+    owner: "{{prometheus_user}}"
+    group: "{{prometheus_group}}"
+  notify: Restart prometheus
 
 - name: Deploy Prometheus systemd service
   ansible.builtin.template:
