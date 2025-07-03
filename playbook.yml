@@ -5,9 +5,9 @@
   become_method: sudo
 
   roles:
-    # - prometheus
-    # - grafana
-    # - node-exporter
+    - prometheus
+    - grafana
+    - node-exporter
     - blackbox-exporter
   
 
