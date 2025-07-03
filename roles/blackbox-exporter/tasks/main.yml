@@ -16,11 +16,14 @@
 
 - name: Ensure destination folder exists
   ansible.builtin.file:
-    path: "{{blackbox_path}}"
+    path: "{{item}}"
     owner: "{{blackbox_user}}"
     group: "{{blackbox_group}}"
     mode: "0755"
     state: directory
+  loop:
+    - "{{blackbox_path}}"
+    - "{{blackbox_config_path}}"
 
 - name: Download blackbox resource
   ansible.builtin.get_url:
@@ -44,6 +47,15 @@
     group: "{{blackbox_group}}"
     mode: "0755"
     state: link
+
+- name: Copy config to blackbox config path
+  ansible.builtin.copy:
+    src: config.yml
+    dest: "{{blackbox_config_path}}/config.yml"
+    owner: "{{blackbox_user}}"
+    group: "{{blackbox_group}}"
+    mode: "0644"
+  notify: Restart blackbox-exporter
 
 - name: Deploy blackbox-exporter systemd service
   ansible.builtin.template:
