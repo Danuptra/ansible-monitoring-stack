@@ -1,0 +1,15 @@
+---
+- name: Restart prometheus
+  become: true
+  systemd:
+    daemon_reload: true
+    name: prometheus
+    state: restarted
+
+- name: Reload prometheus
+  become: true
+  systemd:
+    daemon_reload: true
+    name: prometheus
+    state: reloaded
+# handlers file for monitoring

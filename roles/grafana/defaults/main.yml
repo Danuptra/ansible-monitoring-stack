@@ -1,0 +1,7 @@
+---
+# defaults file for grafana
+grafana_user: grafana
+grafana_group: grafana
+grafana_bin: /usr/local/grafana/bin/grafana
+grafana_config: /usr/local/grafana/conf/grafana.ini
+grafana_home_path: /usr/local/grafana
