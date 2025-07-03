@@ -122,17 +122,6 @@ ansible-playbook playbook.yml --vault-password-file vault_pass.txt
 
 ---
 
-## License
-
-BSD
-
----
-
 ## Author
 
-[Your Name]  
-[Your Contact/LinkedIn/GitHub]
-
----
-
-> _This project is intended as a portfolio example for infrastructure automation and monitoring using
+Made with ❤️ by Danuptra
